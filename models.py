@@ -34,4 +34,5 @@ class Task(Base):
 
 async def init_db():
     async with engine.begin() as conn:
-        conn.run_sync(Base.metadata.create_all)
+        print('Initialize db!')
+        await conn.run_sync(Base.metadata.create_all)

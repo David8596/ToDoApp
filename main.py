@@ -48,7 +48,7 @@ async def add_task(task: AddTask):
     await rq.add_task(user.id, task.title)
     return {'status': 200}
 
-@app.patch('api/completed')
+@app.patch('/api/completed')
 async def complete_task(task: CompleteTask):
     await rq.complete_task(task.task_id)
     return {'status': 200}

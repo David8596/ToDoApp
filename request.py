@@ -18,7 +18,7 @@ async def add_user(tg_id: int):
         if user:
             return user
         
-        new_user = User(tg_id)
+        new_user = User(tg_id=tg_id)
         session.add(new_user)
         await session.commit()
         await session.refresh(new_user)
@@ -36,7 +36,7 @@ async def get_tasks(user_id: int):
   
 async def get_completed_tasks_count(user_id: int):
     async with async_session() as session:
-        completed_tasks_count = await session.scalar(select(func.count(Task.id).where(Task.user == user_id, Task.completed == True)))
+        completed_tasks_count = await session.scalar(select(func.count(Task.id)).where(Task.user == user_id, Task.completed == True))
         serialized_completed_tasks_count = {"completedTasksCount": completed_tasks_count}
         return serialized_completed_tasks_count
 
