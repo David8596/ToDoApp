@@ -39,3 +39,14 @@ async def get_completed_tasks_count(user_id: int):
         completed_tasks_count = await session.scalar(select(func.count(Task.id).where(Task.user == user_id, Task.completed == True)))
         serialized_completed_tasks_count = {"completedTasksCount": completed_tasks_count}
         return serialized_completed_tasks_count
+
+async def add_task(user_id: int, title: str):
+    async with async_session() as session:
+        new_task = Task(title=title, user=user_id)
+        session.add(new_task)
+        await session.commit()
+
+async def complete_task(task_id: int):
+    async with async_session() as session:
+        await session.execute(update(Task).where(Task.id == task_id).values(completed=True))
+        await session.commit()
