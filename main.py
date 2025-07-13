@@ -15,7 +15,7 @@ async def lifespan(app_: FastAPI):
 
 app = FastAPI(title='To Do App', lifespan=lifespan)
 
-app.middleware( 
+app.add_middleware( 
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
@@ -34,3 +34,4 @@ async def profile(tg_id: int):
     user = await rq.add_user(tg_id)
     completed_tasks_count = await rq.get_completed_tasks_count(user.id)
     return completed_tasks_count
+
